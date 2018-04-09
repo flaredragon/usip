@@ -14,7 +14,8 @@ router.get('/machine/:id',ensureAuthenticated , function(req,res) {
 	.then( (machine) => {
 			console.log(machine);
 			res.render('machine',{machine:machine});
-	});
+	})
+});
 
 router.get('/machine/update/:id',ensureAuthenticated , function(req,res) {
 	Machine.find({id:req.params.id}).exec()
@@ -22,66 +23,68 @@ router.get('/machine/update/:id',ensureAuthenticated , function(req,res) {
 			console.log(machine);
 			res.render('addmachine',{machine:machine});
 	});
-
-router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
-	var name = req.body.name;
-	var id = req.body.id;
-	var manufactureDate = req.body.manufactureDate;
-	var dateOfPurchase = req.body.dateOfPurchase;
-	var price = req.body.price;
-	var quantity = req.body.quantity;
-	var manufacturer = req.body.manufacturer;
-	var seller = req.body.seller;
-	var spno = req.body.spno;
-	var sadd = req.body.sadd
-
-	// Validation
-	req.checkBody('name', 'Name is required').notEmpty();
-	req.checkBody('id', 'ID is required').notEmpty();
-	req.checkBody('dateofPurchase', 'Date of Purchase is Required').notEmpty();
-	req.checkBody('price', 'Price is required').notEmpty();
-	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
-	req.checkBody('seller', 'Seller is required').notEmpty();
-
-	var errors = req.validationErrors();
-
-	if(errors){
-		res.render('addmachine',{
-			errors:errors
-		});
-	} else {
-		Machine.find({_id:req.params.id}).exec()
-		       .then( (umachine) => {
-			umachine.name = name;
-			umachine.manufactureDate = manufactureDate;
-			umachine.dateOfPurchase = dateOfPurchase;
-			umachine.price = price;
-			umachine.quantity = quantity;
-			umachine.manufacturer = manufacturer;
-			umachine.seller = seller;
-			umachine.spno = spno;
-			umachine.sadd = sadd; 	
-			
-		Machine.where({ _id: req.params.id })
-		       .update({ $set: { 	
-				name: name,
-				manufactureDate: manufactureDate,
-				dateOfPurchase: dateOfPurchase,
-				price: price,
-				quantity: quantity,
-				manufacturer: manufacturer,
-				seller: seller,
-				spno: spno,
-				sadd: sadd 
-		}},function(err,callback){	
-			 if(err)
-				console.log(err);
-			req.flash('success_msg','Machine Updated');
-			res.redirect('/machine/'+req.params.id);		
-			});
-	}
-	
 });
+
+// router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
+// 	var name = req.body.name;
+// 	var id = req.body.id;
+// 	var manufactureDate = req.body.manufactureDate;
+// 	var dateOfPurchase = req.body.dateOfPurchase;
+// 	var price = req.body.price;
+// 	var quantity = req.body.quantity;
+// 	var manufacturer = req.body.manufacturer;
+// 	var seller = req.body.seller;
+// 	var spno = req.body.spno;
+// 	var sadd = req.body.sadd
+
+// 	// Validation
+// 	req.checkBody('name', 'Name is required').notEmpty();
+// 	req.checkBody('id', 'ID is required').notEmpty();
+// 	req.checkBody('dateofPurchase', 'Date of Purchase is Required').notEmpty();
+// 	req.checkBody('price', 'Price is required').notEmpty();
+// 	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
+// 	req.checkBody('seller', 'Seller is required').notEmpty();
+
+// 	var errors = req.validationErrors();
+
+// 	if(errors){
+// 		res.render('addmachine',{
+// 			errors:errors
+// 		});
+// 	} else {
+// 		Machine.find({_id:req.params.id}).exec()
+// 		       .then( (umachine) => {
+// 			umachine.name = name;
+// 			umachine.manufactureDate = manufactureDate;
+// 			umachine.dateOfPurchase = dateOfPurchase;
+// 			umachine.price = price;
+// 			umachine.quantity = quantity;
+// 			umachine.manufacturer = manufacturer;
+// 			umachine.seller = seller;
+// 			umachine.spno = spno;
+// 			umachine.sadd = sadd; 	
+			
+// 		Machine.where({ _id: req.params.id })
+// 		       .update({ $set: { 	
+// 				name: name,
+// 				manufactureDate: manufactureDate,
+// 				dateOfPurchase: dateOfPurchase,
+// 				price: price,
+// 				quantity: quantity,
+// 				manufacturer: manufacturer,
+// 				seller: seller,
+// 				spno: spno,
+// 				sadd: sadd 
+// 		}},function(err,callback){	
+// 			 if(err)
+// 				console.log(err);
+// 			req.flash('success_msg','Machine Updated');
+// 			res.redirect('/machine/'+req.params.id);		
+// 			});
+// 		})
+// 		}
+	
+// });
 
 router.post('/machine', ensureAuthenticated,function(req, res){
 	var name = req.body.name;
@@ -109,7 +112,8 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 		res.render('addmachine',{
 			errors:errors
 		});
-	} else {
+	} 
+	else {
 		var newMachine = new Machine({
 			name: name,
 			id:id,
@@ -139,7 +143,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 				});
 		      })
 
-	}
+		}
 });
 
 
