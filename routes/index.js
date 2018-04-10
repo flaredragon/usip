@@ -23,66 +23,66 @@ router.get('/machine/update/:id',ensureAuthenticated , function(req,res) {
 	});
 });
 
-// router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
-// 	var name = req.body.name;
-// 	var id = req.body.id;
-// 	var manufactureDate = req.body.manufactureDate;
-// 	var dateOfPurchase = req.body.dateOfPurchase;
-// 	var price = req.body.price;
-// 	var quantity = req.body.quantity;
-// 	var manufacturer = req.body.manufacturer;
-// 	var seller = req.body.seller;
-// 	var spno = req.body.spno;
-// 	var sadd = req.body.sadd
+router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
+	var name = req.body.name;
+	var id = req.body.id;
+	var manufactureDate = req.body.manufactureDate;
+	var dateOfPurchase = req.body.dateOfPurchase;
+	var price = req.body.price;
+	var quantity = req.body.quantity;
+	var manufacturer = req.body.manufacturer;
+	var seller = req.body.seller;
+	var spno = req.body.spno;
+	var sadd = req.body.sadd
 
-// 	// Validation
-// 	req.checkBody('name', 'Name is required').notEmpty();
-// 	req.checkBody('id', 'ID is required').notEmpty();
-// 	req.checkBody('dateofPurchase', 'Date of Purchase is Required').notEmpty();
-// 	req.checkBody('price', 'Price is required').notEmpty();
-// 	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
-// 	req.checkBody('seller', 'Seller is required').notEmpty();
+	// Validation
+	req.checkBody('name', 'Name is required').notEmpty();
+	req.checkBody('id', 'ID is required').notEmpty();
+	req.checkBody('dateOfPurchase', 'Date of Purchase is Required').notEmpty();
+	req.checkBody('price', 'Price is required').notEmpty();
+	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
+	req.checkBody('seller', 'Seller is required').notEmpty();
 
-// 	var errors = req.validationErrors();
+	var errors = req.validationErrors();
 
-// 	if(errors){
-// 		res.render('addmachine',{
-// 			errors:errors
-// 		});
-// 	} else {
-// 		Machine.find({_id:req.params.id}).exec()
-// 		       .then( (umachine) => {
-// 			umachine.name = name;
-// 			umachine.manufactureDate = manufactureDate;
-// 			umachine.dateOfPurchase = dateOfPurchase;
-// 			umachine.price = price;
-// 			umachine.quantity = quantity;
-// 			umachine.manufacturer = manufacturer;
-// 			umachine.seller = seller;
-// 			umachine.spno = spno;
-// 			umachine.sadd = sadd; 	
+	if(errors){
+		res.render('addmachine',{
+			errors:errors
+		});
+	} else {
+		Machine.find({id:req.params.id}).exec()
+		       .then( (umachine) => {
+			umachine.name = name;
+			umachine.manufactureDate = manufactureDate;
+			umachine.dateOfPurchase = dateOfPurchase;
+			umachine.price = price;
+			umachine.quantity = quantity;
+			umachine.manufacturer = manufacturer;
+			umachine.seller = seller;
+			umachine.spno = spno;
+			umachine.sadd = sadd; 	
 			
-// 		Machine.where({ _id: req.params.id })
-// 		       .update({ $set: { 	
-// 				name: name,
-// 				manufactureDate: manufactureDate,
-// 				dateOfPurchase: dateOfPurchase,
-// 				price: price,
-// 				quantity: quantity,
-// 				manufacturer: manufacturer,
-// 				seller: seller,
-// 				spno: spno,
-// 				sadd: sadd 
-// 		}},function(err,callback){	
-// 			 if(err)
-// 				console.log(err);
-// 			req.flash('success_msg','Machine Updated');
-// 			res.redirect('/machine/'+req.params.id);		
-// 			});
-// 		})
-// 		}
+		Machine.where({ id: req.params.id })
+		       .update({ $set: { 	
+				name: name,
+				manufactureDate: manufactureDate,
+				dateOfPurchase: dateOfPurchase,
+				price: price,
+				quantity: quantity,
+				manufacturer: manufacturer,
+				seller: seller,
+				spno: spno,
+				sadd: sadd 
+		}},function(err,callback){	
+			 if(err)
+				console.log(err);
+			req.flash('success_msg','Machine Updated');
+			res.redirect('/machine/'+req.params.id);		
+			});
+		})
+		}
 	
-// });
+});
 
 router.post('/machine', ensureAuthenticated,function(req, res){
 	var name = req.body.name;
@@ -154,7 +154,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 router.delete('/machine/:id', ensureAuthenticated, function (req, res) {
   const idParam = req.params.id;
   // Removes a product
-  Machine.findOne({id: idParam}).remove((err, removed)=> res.json(idParam))
+  Machine.findOne({id: idParam}).remove((err, removed)=> res.json(removed))
 })
 
 function ensureAuthenticated (req, res, next) {
