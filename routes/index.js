@@ -1,19 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var Machine = require('../models/machine');
+var express = require('express')
+var router = express.Router()
+var Machine = require('../models/machine')
 // Get Homepage
-router.get('/', ensureAuthenticated, function(req, res){
-	Machine.find({}).exec()
-	.then((machines) => {	
-	res.render('index',{machines:machines});
-	})
-});
+router.get('/', ensureAuthenticated, function (req, res) {
+  Machine.find({}).exec().then((machines) => {	
+    res.render('index', {machines: machines})
+  })
+})
 
-router.get('/machine/:id',ensureAuthenticated , function(req,res) {
-	Machine.find({id:req.params.id}).exec()
-	.then( (machine) => {
-			console.log(machine);
-			res.render('machine',{machine:machine});
+router.get('/machine/:id', ensureAuthenticated, function (req, res) {
+   Machine.find({id:req.params.id}).exec().then((machine) => {
+    console.log(machine)
+	res.render('machine',{machine:machine});
 	})
 });
 
@@ -101,7 +99,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
 	req.checkBody('id', 'ID is required').notEmpty();
-	req.checkBody('dateofPurchase', 'Date of Purchase is Required').notEmpty();
+	req.checkBody('dateOfPurchase', 'Date of Purchase is Required').notEmpty();
 	req.checkBody('price', 'Price is required').notEmpty();
 	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
 	req.checkBody('seller', 'Seller is required').notEmpty();
@@ -109,6 +107,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 	var errors = req.validationErrors();
 
 	if(errors){
+		console.log(errors)
 		res.render('addmachine',{
 			errors:errors
 		});
@@ -129,8 +128,10 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 
 		newMachine.save((err, saved) => {
 			if(err)
-				res.render('addmachine',{error_msg:'Something Went Wrong Try Again'});		
-
+				{
+			//res.render('addmachine',{error_msg:'Something Went Wrong Try Again'});		
+			console.log(err);
+			}
          		  Machine
 			      .findOne({_id: saved._id})
 			      .exec((err,machine) => {
@@ -138,7 +139,9 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 						console.log(err);
 					
 					console.log(machine);
-					res.render('index',{success_msg:'Item Added'});		
+
+					req.flash('success_msg','Item Added!');
+					res.redirect('/');		
 				
 				});
 		      })
@@ -148,17 +151,16 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 
 
 
-router.delete('/machine/:id', ensureAuthenticated,function(req, res){
-const idParam = req.params.id;
-        // Removes a product
-        Machine.findOne({id: idParam}).remove( (err, removed) => res.json(idParam) )
-});
+router.delete('/machine/:id', ensureAuthenticated, function (req, res) {
+  const idParam = req.params.id;
+  // Removes a product
+  Machine.findOne({id: idParam}).remove((err, removed)=> res.json(idParam))
+})
 
-
-function ensureAuthenticated(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	} else {
+function ensureAuthenticated (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()  } 
+	else {
 		//req.flash('error_msg','You are not logged in');
 		res.redirect('/users/login');
 	}
