@@ -8,6 +8,10 @@ router.get('/', ensureAuthenticated, function (req, res) {
   })
 })
 
+router.get('/machine', ensureAuthenticated, function (req, res) {
+	res.render('addmachine');
+  })  
+
 router.get('/machine/:id', ensureAuthenticated, function (req, res) {
    Machine.find({id:req.params.id}).exec().then((machine) => {
     console.log(machine)
@@ -19,7 +23,7 @@ router.get('/machine/update/:id',ensureAuthenticated , function(req,res) {
 	Machine.find({id:req.params.id}).exec()
 	.then( (machine) => {
 			console.log(machine);
-			res.render('addmachine',{machine:machine});
+			res.render('updatemachine',{machine:machine});
 	});
 });
 
@@ -37,7 +41,6 @@ router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
 
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
-	req.checkBody('id', 'ID is required').notEmpty();
 	req.checkBody('dateOfPurchase', 'Date of Purchase is Required').notEmpty();
 	req.checkBody('price', 'Price is required').notEmpty();
 	req.checkBody('manufacturer', 'Manufacturer is required').notEmpty();
@@ -46,21 +49,14 @@ router.post('/machine/update/:id',ensureAuthenticated , function(req,res) {
 	var errors = req.validationErrors();
 
 	if(errors){
-		res.render('addmachine',{
+		console.log(errors);
+		res.render('updatemachine',{
 			errors:errors
 		});
 	} else {
 		Machine.find({id:req.params.id}).exec()
 		       .then( (umachine) => {
-			umachine.name = name;
-			umachine.manufactureDate = manufactureDate;
-			umachine.dateOfPurchase = dateOfPurchase;
-			umachine.price = price;
-			umachine.quantity = quantity;
-			umachine.manufacturer = manufacturer;
-			umachine.seller = seller;
-			umachine.spno = spno;
-			umachine.sadd = sadd; 	
+			
 			
 		Machine.where({ id: req.params.id })
 		       .update({ $set: { 	
@@ -94,7 +90,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 	var manufacturer = req.body.manufacturer;
 	var seller = req.body.seller;
 	var spno = req.body.spno;
-	var sadd = req.body.sadd
+	var sadd = req.body.sadd;
 
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
@@ -109,7 +105,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 	if(errors){
 		console.log(errors)
 		res.render('addmachine',{
-			errors:errors
+			errors: errors
 		});
 	} 
 	else {
@@ -129,7 +125,7 @@ router.post('/machine', ensureAuthenticated,function(req, res){
 		newMachine.save((err, saved) => {
 			if(err)
 				{
-			//res.render('addmachine',{error_msg:'Something Went Wrong Try Again'});		
+			res.render('addmachine',{error_msg:'Something Went Wrong Try Again'});		
 			console.log(err);
 			}
          		  Machine

@@ -1,0 +1,52 @@
+<h2 class="page-header">Update Machine</h2>
+{{#if errors}}
+      {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+      {{/each}}
+{{/if}}
+{{#each machine}}
+<form method="post" action="/machine/update/{{this.id}}">
+   <div class="form-group">
+    <label>Name</label>
+    <input type="text" class="form-control" placeholder="Name" name="name" value="{{this.name}}">
+  </div>
+  <div class="form-group">
+    <label>ID</label>
+    <input type="text" disabled class="form-control" placeholder="ID" name="id" value="{{this.id}}">
+  </div>
+   <div class="form-group">
+    <label>Manufacture Date</label>
+    <input type="text" class="form-control" placeholder="01-01-1990" name="manufactureDate" value="{{this.manufactureDate}}">
+  </div>
+  <div class="form-group">
+    <label>Date of Purchase</label>
+    <input type="text" class="form-control" placeholder="01-01-1990" name="dateOfPurchase" value="{{this.dateOfPurchase}}">
+  </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input type="text" class="form-control" placeholder="35000" name="price" value="{{this.price}}">
+  </div>
+  <div class="form-group">
+    <label>Quantity</label>
+    <input type="number" class="form-control" placeholder="5" name="quantity" value="{{this.quantity}}">
+  </div>
+  <div class="form-group">
+    <label>Manufacturer</label>
+    <input type="text" class="form-control" placeholder="Name" name="manufacturer" value="{{this.manufacturer}}">
+  </div>
+  <h3 class="page-header">Seller Details</h3>
+  <div class="form-group">
+    <label>Seller Name</label>
+    <input type="text" class="form-control" placeholder="Name" name="seller" value="{{this.seller}}">
+  </div>
+  <div class="form-group">
+    <label>Contact Number</label>
+    <input type="text" class="form-control" placeholder="9999999999" name="spno" value="{{this.spno}}">
+  </div>
+  <div class="form-group">
+    <label>Address</label>
+    <input type="text" class="form-control" placeholder="23/23 Karol Bagh" name="sadd" value="{{this.sadd}}">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{{/each}}

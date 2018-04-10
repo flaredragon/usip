@@ -1,2 +1,5 @@
  <h2 class="page-header">Machine</h2>
-<p>Welcome to your dashboard{{machine}}</p>  
+<p>Welcome to your dashboard{{machine}}</p> 
+{{#each machine}}
+<a class ="btn btn-default" href="/machine/update/{{this.id}}" >Update</a>
+{{/each}}
