@@ -1,5 +1,19 @@
- <h2 class="page-header">Machine</h2>
-<p>Welcome to your dashboard{{machine}}</p> 
+ <h2 class="page-header">Machine</h2> 
 {{#each machine}}
-<a class ="btn btn-default" href="/machine/update/{{this.id}}" >Update</a>
+        <div class="container">
+            <p>Name : {{this.name}}</p>
+            <p>ID : {{this.id}}</p>
+            <p>Date Of Manufacture : {{this.manufactureDate}}</p>
+            <p>Manufacturer: {{this.manufacturer}}</p>
+            <p>Original Price: {{this.price}}</p>
+            <p>Quantity :{{this.quantity}}</p>
+            <p>Date Of Purchase :{{this.dateOfPurchase}}</p>
+            <p>Seller Name :{{this.seller}}</p>
+            <p>Seller Phone Number :{{this.spno}}</p>
+            <p>Seller Address :{{this.sadd}}</p>
+        </div>
+        
+      <br><br>
+      
+<a class ="btn btn-primary" href="/machine/update/{{this.id}}" >Update</a>
 {{/each}}

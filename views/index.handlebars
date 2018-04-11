@@ -3,19 +3,14 @@
 
 <div>
 {{#each machines}}
-        <div class="container">
+        <div class="container row">
+            <div class="col-md-6">
             <p>Name : {{this.name}}</p>
             <p>ID : {{this.id}}</p>
-            <p>Date Of Manufacture : {{this.dateOfManufacture}}</p>
-            <p>Manufacturer: {{this.manufacturer}}</p>
-            <p>Original Price: {{this.price}}</p>
-            <p>Quantity :{{this.quantity}}</p>
-            <p>Date Of Purchase :{{this.dateOfPurchase}}</p>
-            <p>Seller Name :{{this.seller}}</p>
-            <p>Seller Phone Number :{{this.spno}}</p>
-            <p>Seller Address :{{this.sadd}}</p>
+            </div>
+        <a class="btn btn-primary" href="/machine/{{this.id}}">More Details</a>
+        <a class ="btn btn-default" href="/machine/update/{{this.id}}" >Update</a>
         </div>
-        <a class="btn btn-default" href="/machine/{{this.id}}">More Details</a>
       <br><br>
       {{/each}}
 </div>      
